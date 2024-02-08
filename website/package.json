@@ -1,0 +1,13 @@
+{
+    "scripts": {
+        "start": "yarn build && python app.py",
+        "build": "npx tailwindcss -i ./static/src/input.css -o ./static/dist/css/output.css"
+    },
+    "license": "MIT",
+    "devDependencies": {
+        "tailwindcss": "^3.4.1"
+    },
+    "dependencies": {
+        "flowbite": "^2.2.1"
+    }
+}
