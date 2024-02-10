@@ -1,6 +1,7 @@
 {
     "files.exclude": {
         "**/*venv": true,
+        "**/.buildozer": false,
         "**/__pycache__": true,
         "**/node_modules": true,
         "**/*.lock": true
