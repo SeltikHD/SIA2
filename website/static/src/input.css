@@ -12,3 +12,8 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
+
+html,
+body {
+    max-height: 100vh;
+}
