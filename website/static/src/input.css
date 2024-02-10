@@ -13,3 +13,8 @@ body {
     background-attachment: fixed;
     overflow: hidden;
 }
+
+html,
+body {
+    max-height: 100vh;
+}
