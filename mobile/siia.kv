@@ -1,0 +1,28 @@
+<Root>:
+
+    temperature_label: temperature_label
+    moisture_label: moisture_label
+
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            text: "SIIA"
+            font_size: 64
+            color: 0.13, 0.58, 0.08
+        Label:
+            text: "Sistema de Irrigação Inteligente e Automático"
+            font_size: 32
+            color: 0.13, 0.58, 0.08
+        Label:
+            id: temperature_label
+            text: "-"
+            font_size: 32
+        Label:
+            id: moisture_label
+            text: "-"
+            font_size: 32
+        Button:
+            text: "Ver dados"
+            font_size: 32
+            size: 100, 50
+            on_press: root.get_data()
