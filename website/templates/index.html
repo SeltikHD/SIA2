@@ -24,18 +24,24 @@
             <main class="w-full h-full flex">
                 <section class="w-full h-full">
                     <div class="bg-white rounded-3xl h-[25%] w-[35%] ml-10 mb-10 flex justify-center items-center">
-                        <p class="text-7xl">{{ latest_data.temperature }} ºC</p>
+                        <p class="text-5xl">{{ latest_data.temperatura }} ºC</p>
                     </div>
                     <div class="bg-white rounded-3xl h-[25%] w-[35%] ml-10 flex justify-center items-center">
-                        <p class="text-7xl">{{ latest_data.temperature }}%</p>
+                        <p class="text-5xl">{{ latest_data.umidade }}%</p>
                     </div>
-                    <div class="bg-white rounded-3xl h-[25%] w-[35%] ml-10 flex justify-center items-center">
-                        <p>Anomalias (temperatura abaixo de 10 graus):</p>
-                        <ul>
-                            {% for anomaly in anomalies %}
+                </section>
+                <section class="w-full h-full">
+                    <div
+                        class="bg-white rounded-xl overflow-auto max-h-[75%] w-full flex-col justify-center items-center"
+                    >
+                        <h1 class="text-center text-2xl p-6">Anomalias:</h1>
+                        <ul class="bg-gray-400 w-full p-8">
+                            {% if not anomalies %}
+                            <li class="w-full p-4 bg-gray-200 rounded-xl">Nenhuma anomalia detectada até o momento.</li>
+                            {% endif %} {% for anomaly in anomalies %}
                             <li>
-                                Timestamp: {{ anomaly.timestamp }}, Temperatura: {{ anomaly.temperature }}, Umidade: {{
-                                anomaly.humidity }}
+                                Timestamp: {{ anomaly.timestamp }}, Temperatura: {{ anomaly.temperature }} ºC, Umidade:
+                                {{ anomaly.humidity }}%
                             </li>
                             {% endfor %}
                         </ul>
@@ -45,15 +51,24 @@
                     <div
                         class="bg-white rounded-3xl h-[40%] w-[55%] ml-auto mr-10 mb-10 flex justify-center items-center"
                     >
-                        {% if latest_data.image_path %}
-                        <img src="{{ latest_data.image_path }}" alt="Imagem da Estufa" />
+                        {% if latest_data.path_image %}
+                        <img src="{{ url_for('static',filename=latest_data.path_image) }}" alt="Imagem da Estufa" />
                         {% else %}
                         <p>Nenhuma imagem disponível.</p>
                         {% endif %}
                     </div>
-                    <div class="bg-white rounded-3xl h-[25%] w-[55%] ml-auto mr-10 flex justify-center p-4">
-                        <div class="bg-slate-300 rounded-xl h-[40%] w-[60%] flex justify-center items-center">
-                            <p class="text-xl">Notificações</p>
+                    <div
+                        class="bg-white rounded-3xl h-[25%] w-[55%] ml-auto mr-10 flex-col justify-center space-y-2 p-4"
+                    >
+                        <div class="bg-slate-300 rounded-xl h-[40%] w-full flex justify-center items-center">
+                            <p class="text-xl">Previsões</p>
+                        </div>
+                        <div class="bg-gray-200 rounded-xl h-[40%] p-2 w-full flex justify-center items-center">
+                            {% if not predicted_humidity or predicted_humidity == 0 %}
+                            <p class="text-lg">Sem dados até o momento.</p>
+                            {% else %}
+                            <p class="text-lg">Umidade prevista: {{ "{:.2f}".format(predicted_humidity) }}%</p>
+                            {% endif %}
                         </div>
                     </div>
                 </section>

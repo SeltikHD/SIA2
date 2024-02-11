@@ -18,3 +18,7 @@ html,
 body {
     max-height: 100vh;
 }
+
+li + li {
+    margin-top: 10px;
+}

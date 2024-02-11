@@ -31,10 +31,13 @@ def index():
     temperatures = [data.temperatura for data in GreenhouseData.query.all()]
     humilities = [data.umidade for data in GreenhouseData.query.all()]
     X = [[temp] for temp in temperatures]
-    y = humilities
-    model = LinearRegression()
-    model.fit(X, y)
-    predicted_humidity = model.predict([[latest_data.temperatura]])[0]
+    if len(X) == 0:
+        predicted_humidity = 0
+    else:
+        y = humilities
+        model = LinearRegression()
+        model.fit(X, y)
+        predicted_humidity = model.predict([[latest_data.temperatura]])[0]
 
     # Exemplo de detecção de anomalias (temperatura abaixo de 10 graus)
     anomalies = GreenhouseData.query.filter(
