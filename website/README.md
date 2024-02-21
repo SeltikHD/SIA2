@@ -30,21 +30,7 @@ Este é um projeto de estufa automática (chamado de SIIA), essa parte utiliza o
     DATABASE_URL=postgresql://username:xxxxxxxx@xxxxxxxxx:5432/dbname
     ```
 
-    Para teste, você pode popular a tabela com alguns dados de exemplo:
-
-    ```sql
-    -- Inserir dados de temperatura e umidade fictícios
-    INSERT INTO dados (timestamp, temperatura, umidade) VALUES
-        ('2024-02-11 08:00:00', 25.5, 60.2),
-        ('2024-02-11 09:00:00', 26.1, 59.8),
-        ('2024-02-11 10:00:00', 27.3, 57.6),
-        ('2024-02-11 11:00:00', 28.5, 55.3),
-        ('2024-02-11 12:00:00', 29.8, 53.1);
-
-    -- Inserir um dado com imagem fictícia
-    INSERT INTO dados (timestamp, temperatura, umidade, path_image) VALUES
-        ('2024-02-11 13:00:00', 30.2, 52.0, './imgs/greenhouse/example.jpg');
-    ```
+    Para teste, você pode popular a tabela com alguns dados de exemplo que estão no arquivo `init.sql`.
 
 ## Executando o Aplicativo
 

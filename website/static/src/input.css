@@ -11,7 +11,6 @@ body {
     margin: 0;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    overflow: hidden;
 }
 
 html,
@@ -21,4 +20,9 @@ body {
 
 li + li {
     margin-top: 10px;
+}
+
+div {
+    border: 1px solid black;
+    box-shadow: 0 0 80px 0 rgba(0, 0, 0, 0.2);
 }
