@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from sklearn.linear_model import LinearRegression
 from flask_sqlalchemy import SQLAlchemy
+from lib.models import db, GreenhouseData, Cultura, CondicoesIdeais, APIKey, LogAcesso
 from datetime import datetime
 from dotenv import load_dotenv
 import secrets
@@ -11,48 +12,7 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
-db = SQLAlchemy(app)
-
-# Definindo os modelos
-class GreenhouseData(db.Model):
-    __tablename__ = 'dados_periodicos'
-    id = db.Column(db.Integer, primary_key=True)
-    timestamp = db.Column(db.TIMESTAMP, nullable=False)
-    temperatura = db.Column(db.Float, nullable=False)
-    umidade = db.Column(db.Float, nullable=False)
-    path_image = db.Column(db.Text)
-    cultura_id = db.Column(db.Integer, db.ForeignKey('cultura.id'), nullable=False)
-
-class Cultura(db.Model):
-    __tablename__ = 'cultura'
-    id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.Text, nullable=False)
-    trefle_id = db.Column(db.Integer, nullable=False)
-    condicoes_ideais = db.relationship('CondicoesIdeais', backref='cultura', lazy=True)
-
-class CondicoesIdeais(db.Model):
-    __tablename__ = 'condicoes_ideais'
-    id = db.Column(db.Integer, primary_key=True)
-    temperatura_min = db.Column(db.Float, nullable=False)
-    temperatura_max = db.Column(db.Float, nullable=False)
-    umidade_min = db.Column(db.Float, nullable=False)
-    umidade_max = db.Column(db.Float, nullable=False)
-    cultura_id = db.Column(db.Integer, db.ForeignKey('cultura.id'), nullable=False)
-
-class APIKey(db.Model):
-    __tablename__ = 'chave_api'
-    id = db.Column(db.Integer, primary_key=True)
-    chave = db.Column(db.Text, unique=True, nullable=False)
-    ativo = db.Column(db.Boolean, nullable=False)
-
-
-class LogAcesso(db.Model):
-    __tablename__ = 'log_acesso'
-    id = db.Column(db.Integer, primary_key=True)
-    timestamp = db.Column(db.TIMESTAMP, nullable=False)
-    ip = db.Column(db.String(45), nullable=False)
-    chave_api_id = db.Column(db.Integer, db.ForeignKey(
-        'chave_api.id'), nullable=False)
+db.init_app(app)
 
 
 @app.route('/')
@@ -60,6 +20,8 @@ def index():
     # Exemplo de consulta ao banco de dados para obter os dados mais recentes
     latest_data = GreenhouseData.query.order_by(
         GreenhouseData.timestamp.desc()).first()
+    # date = datetime.strptime(latest_data.timestamp, "%Y-%m-%d %H:%M:%S.%f")
+    # latest_data.timestamp = date.strftime("%d de %B de %Y às %H:%Mh")
 
     # Exemplo de previsão de temperatura usando regressão linear
     temperatures = [data.temperatura for data in GreenhouseData.query.all()]
@@ -113,12 +75,14 @@ def inserir_dados():
         return jsonify({'message': 'Cultura não encontrada'}), 404
 
     # Salva os dados no banco de dados
-    novo_dado = GreenhouseData(timestamp=timestamp, temperatura=temperatura, umidade=umidade, path_image=path_image, cultura_id=cultura_id)
+    novo_dado = GreenhouseData(timestamp=timestamp, temperatura=temperatura,
+                               umidade=umidade, path_image=path_image, cultura_id=cultura_id)
     db.session.add(novo_dado)
     db.session.commit()
 
     # Registra o acesso no log
-    log_acesso = LogAcesso(timestamp=timestamp, ip=request.remote_addr, chave_api_id=api_key.id)
+    log_acesso = LogAcesso(timestamp=timestamp,
+                           ip=request.remote_addr, chave_api_id=api_key.id)
     db.session.add(log_acesso)
     db.session.commit()
 
@@ -145,7 +109,8 @@ def nova_chave_api():
 
     # Registra o acesso no log
     timestamp = datetime.now()
-    log_acesso = LogAcesso(timestamp=timestamp, ip=request.remote_addr, chave_api_id=api_key.id)
+    log_acesso = LogAcesso(timestamp=timestamp,
+                           ip=request.remote_addr, chave_api_id=api_key.id)
     db.session.add(log_acesso)
     db.session.commit()
 

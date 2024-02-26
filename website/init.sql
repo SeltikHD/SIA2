@@ -13,7 +13,7 @@ CREATE TABLE dados_periodicos (
     cultura_id INTEGER REFERENCES cultura(id) ON DELETE CASCADE
 );
 
-CREATE TABLE condicoes_ideias (
+CREATE TABLE condicoes_ideais (
     id SERIAL PRIMARY KEY,
     temperatura_min FLOAT NOT NULL,
     temperatura_max FLOAT NOT NULL,
@@ -40,7 +40,7 @@ INSERT INTO cultura (nome, trefle_id) VALUES
     ('Tomate', 269338);
 
 -- Inserir condições ideais para a cultura de teste --
-INSERT INTO condicoes_ideias (temperatura_min, temperatura_max, umidade_min, umidade_max, cultura_id) VALUES
+INSERT INTO condicoes_ideais (temperatura_min, temperatura_max, umidade_min, umidade_max, cultura_id) VALUES
     (20.0, 30.0, 50.0, 70.0, 1);
 
 -- Inserir dados de temperatura e umidade fictícios 
@@ -54,7 +54,7 @@ INSERT INTO dados_periodicos (timestamp, temperatura, umidade, cultura_id) VALUE
 -- Inserir um dado com imagem fictícia
 INSERT INTO dados_periodicos (timestamp, temperatura, umidade, cultura_id, path_image) VALUES
     ('2024-02-11 13:00:00', 30.2, 52.0, 1, './imgs/greenhouse/example.jpg');
-
+    
 -- Inserir uma chave de API de teste --
 INSERT INTO chave_api (chave, ativo) VALUES
     ('123456', TRUE);
