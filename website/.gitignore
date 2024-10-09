@@ -3,5 +3,3 @@
 __pycache__/
 node_modules/
 dist/
-static/imgs/greenhouse/*.jpg
-!static/imgs/greenhouse/example.jpg
