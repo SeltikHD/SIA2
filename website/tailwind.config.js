@@ -1,8 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: ["./templates/**/*.html", "./static/src/**/*.js", "./node_modules/flowbite/**/*.js"],
+    content: ["./templates/**/*.html", "./static/src/**/*.js"],
     theme: {
         extend: {},
     },
-    plugins: [require("flowbite/plugin"), require("tailwind-scrollbar")],
+    daisyui: {
+        themes: ["nord", "night"],
+        darkTheme: "night",
+    },
+    plugins: [require("daisyui"), require("tailwind-scrollbar")],
 };

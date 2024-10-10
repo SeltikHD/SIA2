@@ -23,6 +23,6 @@ li + li {
 }
 
 div {
-    border: 1px solid black;
+    border: none;
     box-shadow: 0 0 80px 0 rgba(0, 0, 0, 0.2);
 }

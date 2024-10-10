@@ -1,0 +1,16 @@
+{% extends "components/base.html" %}
+{% block title %}Registrar{% endblock title %}
+{% block content %}
+    <section>
+        <h1>Registrar</h1>
+        <form action="{{url_for('registrar')}}" method="POST">
+            <label for="nome">Nome:</label>
+            <input type="text" name="nome" id="nome" required />
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" required />
+            <label for="senha">Senha:</label>
+            <input type="password" name="senha" id="senha" required />
+            <button type="submit">Registrar</button>
+        </form>
+    </section>
+{% endblock content %}
